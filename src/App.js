@@ -1,21 +1,48 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Dealer from './components/Dealer/Dealer';
+import Player from './components/Player/Player';
+import StartGame from './components/StartGame/StartGame';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    state ={
+        isStart: false,
+        dealer:[],
+        user:[],
+    }
+    
+
+    letsStartGame = (e) => {
+        const start = this.state.isStart;
+        this.setState({isStart: !start})
+    };
+
+
+    render() {
+          
+        let show = null;
+        if (this.state.isStart){
+            show = (
+            <div  className="App">
+                <Dealer/>
+                <Player/>
+            </div>
+            );
+        }else{
+            show = (
+                <div className="App">
+                    <StartGame click = {(e) => this.letsStartGame (e)} />
+                </div>
+            );
+        }
+
+
+        return (
+            <div>
+                {show}
+            </div>
+        );
+    }
 }
 
 export default App;

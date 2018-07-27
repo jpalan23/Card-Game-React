@@ -1,0 +1,67 @@
+.Card{
+    transition: all 0.5s ease;
+    position: relative;
+    padding: 10px;
+    float: left;
+    margin-right: 10px;
+    width: 150px;
+    height: 220px;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+}
+
+.Card .top-left{
+    position: absolute;
+    top: 40px;
+}
+
+.Card:hover{
+    transform: scale(1.05,1.05);
+}
+
+.Card p{
+    text-align: center;
+    font-size: 60px;
+}
+
+
+.Card .front{
+    background-color: #fff;
+}
+
+.Card .bottom-right{
+    position: absolute;
+    bottom: 40px;
+    right: 10px;
+}
+
+.back{
+    background-image: url('../../../images/cardback.gif');
+    border-color: #808080 #000000 #000000 #808080;
+}
+
+div[class*='suit']:before {
+    position: absolute;
+    font-size: 35px;
+    left: 5px;
+    top: 5px;
+}
+
+div[class*='suit']:after {
+    position: absolute;
+    font-size: 35px;
+    right: 5px;
+    bottom: 5px;
+}
+
+.suitspades::before, .suitspades::after {
+    content: "♠";
+    color: rgb(0, 0, 0);
+}
+
+.suithearts::before, .suithearts::after {
+    content: "♥";
+    color: rgb(255, 0, 0);
+}
+
