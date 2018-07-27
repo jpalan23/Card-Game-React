@@ -7,8 +7,18 @@ import StartGame from './components/StartGame/StartGame';
 class App extends Component {
     state ={
         isStart: false,
-        dealer:[],
-        user:[],
+        dealer:[
+            {suit: 'HEARTS', value: '7' },
+            {suit: 'SPADES', value:  'QUEEN'},
+            {suit: 'HEARTS', value:  'ACE'},
+            {suit: 'SPADES', value:  '3'},
+        ],
+        player:[
+            {suit: 'HEARTS', value: '7' },
+            {suit: 'SPADES', value:  'QUEEN'},
+            {suit: 'HEARTS', value:  'ACE'},
+            {suit: 'SPADES', value:  '3'},
+        ]
     }
     
 
@@ -24,8 +34,8 @@ class App extends Component {
         if (this.state.isStart){
             show = (
             <div  className="App">
-                <Dealer/>
-                <Player/>
+                <Dealer hand = {this.state.dealer}/>
+                <Player hand = {this.state.player}/>
             </div>
             );
         }else{

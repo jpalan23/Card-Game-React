@@ -3,7 +3,6 @@
     position: relative;
     padding: 10px;
     float: left;
-    margin-right: 10px;
     width: 150px;
     height: 220px;
     border-radius: 10px;
@@ -26,7 +25,7 @@
 }
 
 
-.Card .front{
+.front{
     background-color: #fff;
 }
 
@@ -55,12 +54,12 @@ div[class*='suit']:after {
     bottom: 5px;
 }
 
-.suitspades::before, .suitspades::after {
+.suitSPADES::before, .suitSPADES::after {
     content: "♠";
     color: rgb(0, 0, 0);
 }
 
-.suithearts::before, .suithearts::after {
+.suitHEARTS::before, .suitHEARTS::after {
     content: "♥";
     color: rgb(255, 0, 0);
 }
