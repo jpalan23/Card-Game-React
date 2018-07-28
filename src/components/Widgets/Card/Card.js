@@ -22,11 +22,13 @@ const Card = (props) => {
 Card.propTypes = {
     value: PropTypes.string,
     suit: PropTypes.string,
-    show: PropTypes.string
+    show: PropTypes.string,
+    code: PropTypes.string
 }
 
 Card.defaultProps = {
     suit: '',
+    code: '',
     value: '',
     show: 'back'
 }

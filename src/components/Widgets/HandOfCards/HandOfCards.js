@@ -9,16 +9,18 @@ const HandOfCards = (props) => {
     if (props.show === 'back'){
         cards = props.hand.map(card => {
             return (
-            <div className = "eachCard" >
-                <Card />    
+            <div key = {card.code} className = "eachCard" >
+                <Card />>    
             </div>
             )
         });
     }else{
         cards = props.hand.map(card => {
             return  (
-                <div className = "eachCard" >
-                    <Card value= {card.value} 
+                <div key = {card.code} className = "eachCard" >
+                    <Card
+                        key = {card.code}
+                        value= {card.value} 
                         suit = {card.suit}
                         show = 'front' />    
                 </div>

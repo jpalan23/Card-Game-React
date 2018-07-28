@@ -3,6 +3,13 @@
     flex-direction: column;
 }
 
+.StartGame .disableButton{
+    background: #fce4038a;
+    border-color: #fce4038a;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .StartGame button{
     margin-top: 40px;
     display: block;

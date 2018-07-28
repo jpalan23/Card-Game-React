@@ -64,3 +64,12 @@ div[class*='suit']:after {
     color: rgb(255, 0, 0);
 }
 
+.suitCLUBS::before, .suitCLUBS::after {
+    content: "♣";
+    color: rgb(0, 0, 0);
+}
+
+.suitDIAMONDS::before, .suitDIAMONDS::after {
+    content: "♦";
+    color: rgb(255, 0, 0);
+}
