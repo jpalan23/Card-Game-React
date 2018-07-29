@@ -34,10 +34,18 @@ class Dealer extends Component {
         }
 
         let disableDraw = null;
-        if (this.state.draw){
+        if (this.props.hand.length > 4){
             disableDraw = 'disableDraw'
         }
         
+        let winner= null;
+        if(this.props.winner === 'dealer'){
+            winner = 'score green';
+        }else if(this.props.winner === 'draw'){
+            winner ='score yellow';
+        }else{
+            winner = 'score';
+        }
 
         return (
             <div className = "PlayerUI">
@@ -49,7 +57,7 @@ class Dealer extends Component {
                 </div>
                 <div className="buttonSet">
                     <button onClick={this.showCards}>{this.state.show ? 'Hide' : 'Show' } Hand</button>
-                    <span className="score">{this.props.totalPoints}</span>    
+                    <span className={winner}>{this.props.totalPoints}</span>    
                     <button className={disableDraw} onClick= {this.drawCard}>Draw Card</button>
                 </div>
                 

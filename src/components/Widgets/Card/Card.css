@@ -38,6 +38,8 @@
 .back{
     background-image: url('../../../images/cardback.gif');
     border-color: #808080 #000000 #000000 #808080;
+    background-color: white;
+    padding: 3px;
 }
 
 div[class*='suit']:before {

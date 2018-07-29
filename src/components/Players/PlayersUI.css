@@ -61,3 +61,17 @@
 .PlayerUI{
     margin:5px;
 }
+
+.PlayerUI .buttonSet button:focus{
+    outline: none;    
+}
+
+.PlayerUI .green{
+    border: 2px solid greenyellow;
+    color: greenyellow !important;
+}
+
+.PlayerUI .draw{
+    border: 2px solid yellow;
+    color: yellow !important;
+}

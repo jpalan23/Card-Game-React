@@ -14,3 +14,18 @@
     margin: auto;
     padding-top: 30px;
 }
+
+.App .refresh img{
+    width: 30px;
+}
+
+.App .refresh{
+    width: 40px;
+    height: 40px;
+    display: block;
+    position: fixed;
+}
+
+.App .refresh:hover{
+    cursor: pointer;
+}

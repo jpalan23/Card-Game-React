@@ -37,3 +37,8 @@
 .StartGame button:hover{
     background-color: transparent;
 }
+
+.StartGame button:focus{
+    border: none;
+    outline: none;    
+}
