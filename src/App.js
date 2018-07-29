@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-import Dealer from './components/Dealer/Dealer';
-import Player from './components/Player/Player';
+import Dealer from './components/Players/Dealer/Dealer';
+import Player from './components/Players/Player/Player';
 import StartGame from './components/StartGame/StartGame';
 
 class App extends Component {
-    state ={
+    state = {
         isStart: false,
         deckId : '',
         isLoading: true,
@@ -16,7 +16,7 @@ class App extends Component {
         playerPoints: 0
     }
 
-    // Calling Deck API
+    // Calling Deck API for drawing initial Cards
     componentDidMount(){
         axios.get('/new/shuffle/?deck_count=1')
             .then(response => {
@@ -34,31 +34,23 @@ class App extends Component {
                     let dealer = [];
                     let player = [];
                     for (var i = 0; i < cards.length; i++){
-                        let currentPoint = 0;
-                        cards[i].suit = 'suit' + cards[i].suit; // For CSS of Card
-                        let value = cards[i].value.charAt(0); // For Print value on Card
-                        if(value === 'A'){
-                            currentPoint = 1;
-                        }else if(value === 'Q' || value === 'J' || value === 'K'){
-                            currentPoint = 10;
-                        }else{
-                            currentPoint = parseInt(value, 10);
-                        }
-                        cards[i].value = value;
-
+                        let card = cards[i];
+                        let suit = 'suit' + card.suit; // For CSS of Card
+                        let value = card.value.charAt(0); // For Print value on Card
+                        let currentPoint = this.getPoints(value); // Extracting points from API
                         if (i < 4){
                             dealerPoints += currentPoint;
                             dealer.push({
-                                suit: cards[i].suit,
-                                value: cards[i].value,
-                                code: cards[i].code
+                                suit: suit,
+                                value: value,
+                                code: card.code
                             });
                         }else{
                             playerPoints += currentPoint;
                             player.push({
-                                suit: cards[i].suit,
-                                value: cards[i].value,
-                                code: cards[i].code
+                                suit: suit,
+                                value: value,
+                                code: card.code
                             });
                         }
                     }
@@ -75,13 +67,14 @@ class App extends Component {
             }).catch(error =>{});
     }
     
-
     letsStartGame = (e) => {
         const start = this.state.isStart;
         this.setState({isStart: !start})
     };
 
-    drawDealerCard = (e)=>{
+    // Calling Deck API for drawing 1 card called from either of players
+    drawCard = (e,player)=>{
+        console.log(e);
         let deckId = this.state.deckId;
         axios.get(`/${deckId}/draw/?count=1`)
             .then(response =>{
@@ -89,21 +82,41 @@ class App extends Component {
                 let suit = 'suit' + card.suit;
                 let value = card.value.charAt(0);
                 let points = this.getPoints(value);
-                let dealer = this.state.dealer;
-                let dealerPoints = this.state.dealerPoints;
-                dealer.push(
-                    {
-                        suit: suit,
-                        value: value,
-                        code: card.code
+                
+                if(player === 'Dealer'){
+                    let dealer = this.state.dealer;
+                    let dealerPoints = this.state.dealerPoints;
+                    dealer.push(
+                        {
+                            suit: suit,
+                            value: value,
+                            code: card.code
 
-                    }
-                );
-                dealerPoints += points;
-                this.setState({
-                    dealer: dealer,
-                    dealerPoints: dealerPoints
-                })
+                        }
+                    );
+                    dealerPoints += points;
+                    this.setState({
+                        dealer: dealer,
+                        dealerPoints: dealerPoints
+                    });
+                }else{
+                    let player = this.state.player;
+                    let playerPoints = this.state.playerPoints;
+                    player.push(
+                        {
+                            suit: suit,
+                            value: value,
+                            code: card.code
+
+                        }
+                    );
+                    playerPoints += points;
+                    this.setState({
+                        player: player,
+                        playerPoints: playerPoints
+                    });
+                }
+                
             }).catch()
     }
 
@@ -125,8 +138,10 @@ class App extends Component {
         if (this.state.isStart){
             show = (
             <div  className="App">
-                <Dealer hand = {this.state.dealer} totalPoints = {this.state.dealerPoints} draw = {(e) => this.drawDealerCard(e)}/>
-                <Player hand = {this.state.player} totalPoints ={this.state.playerPoints}/>
+                <div className="mainGame">
+                    <Dealer hand = {this.state.dealer} totalPoints = {this.state.dealerPoints} draw = {(e) => this.drawCard(e,'Dealer')}/>
+                    <Player hand = {this.state.player} totalPoints ={this.state.playerPoints} draw = {(e) => this.drawCard(e,'Player')}/>
+                </div>        
             </div>
             );
         }else{

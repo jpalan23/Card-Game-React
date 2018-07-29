@@ -1,0 +1,63 @@
+.PlayerUI .title h1{
+    text-align: center;
+    font-size: 24px;
+    color: gold;
+    font-weight: 600;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.PlayerUI .buttonSet{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 400px;
+}
+
+.PlayerUI .disableDraw{
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.PlayerUI .score{
+    width: 30px;
+    height: 30px;
+    padding-top: 5px;
+    text-align: center;
+
+    border: 1px solid;
+    font-weight: bold;
+}
+
+.PlayerUI .buttonSet button{
+    display: block;
+    position: relative;
+    line-height: 2.0;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 2px;
+    padding: 0 1em;
+    font-size: 0.8em;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    border-radius: 50px;
+    width: 100%;
+    max-width: 140px;
+    color: black;
+    border-color: #fce403;
+    background-color: #fce403;
+}
+
+.PlayerUI .buttonSet button:hover{
+    background-color: transparent;
+}
+
+.PlayerUI{
+    margin:5px;
+}

@@ -1,14 +1,13 @@
 .spread {
     width: 250px;
-    height: 280px;
+    height: 240px;
     position: relative;
     margin: 0 auto;
+    margin-top: 20px;
 }
 
 .spread .eachCard{
     position: absolute;
-    -webkit-box-shadow: 1px 1px 7px rgba(0,0,0,0.4);
-    box-shadow: 1px 1px 7px rgba(0,0,0,0.4);
 }
 
 .eachCard:nth-child(1){
@@ -20,7 +19,7 @@
 }
 
 .eachCard:nth-child(2){
-    left: 30px;
+    left: 20px;
     top: 0px;
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
@@ -30,7 +29,7 @@
 }
 
 .eachCard:nth-child(3){
-    left: 60px;
+    left: 40px;
     top: 5px;
     -webkit-transform: rotate(10deg);
     -moz-transform: rotate(10deg);
@@ -40,11 +39,21 @@
 }
 
 .eachCard:nth-child(4){
-    left: 80px;
+    left: 60px;
     top: 10px;
     -webkit-transform: rotate(20deg);
     -moz-transform: rotate(20deg);
     -o-transform: rotate(20deg);
     -ms-transform: rotate(20deg);
     transform: rotate(20deg);
+}
+
+.eachCard:nth-child(5){
+    left: 80px;
+    top: 15px;
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    -o-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    transform: rotate(30deg);
 }

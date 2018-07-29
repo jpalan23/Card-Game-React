@@ -1,6 +1,7 @@
 .StartGame{
     display: flex;
     flex-direction: column;
+    margin: auto;
 }
 
 .StartGame .disableButton{
