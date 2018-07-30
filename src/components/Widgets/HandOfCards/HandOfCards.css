@@ -61,6 +61,7 @@
 @media (max-width: 812px){
     .spread{
         width: 220px;
+        height: 220px;
+        margin-top: 10px;
     }
 }
-
