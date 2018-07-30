@@ -15,6 +15,10 @@
     top: 40px;
 }
 
+.Card .top-left span, .Card .bottom-right span{
+        font-size: 18px;
+}
+
 .Card:hover{
     transform: scale(1.02,1.02);
 }
@@ -74,4 +78,28 @@ div[class*='suit']:after {
 .suitDIAMONDS::before, .suitDIAMONDS::after {
     content: "♦";
     color: rgb(255, 0, 0);
+}
+
+
+@media (max-width: 812px){
+    .Card{
+        width: 120px;
+        height: 180px;
+    }
+
+    
+
+    div[class*='suit']:before {
+        font-size: 28px;
+    }
+    
+    div[class*='suit']:after {
+        font-size: 28px;
+    }
+    .Card p {
+        font-size: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

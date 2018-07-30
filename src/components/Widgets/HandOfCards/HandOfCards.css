@@ -58,3 +58,9 @@
     transform: rotate(30deg);
 }
 
+@media (max-width: 812px){
+    .spread{
+        width: 220px;
+    }
+}
+

@@ -75,3 +75,19 @@
     border: 2px solid yellow;
     color: yellow !important;
 }
+
+@media (max-width: 812px){
+    .PlayerUI .title h1 {
+        font-size: 18px;
+    }
+
+    .PlayerUI .buttonSet button {
+        line-height: 1.0;
+        font-size: 0.75em;
+        max-width: 120px;
+    }
+
+    .PlayerUI .buttonSet {
+        width: 340px;
+    }
+}

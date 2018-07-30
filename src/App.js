@@ -26,50 +26,33 @@ class App extends Component {
                 this.setState({
                     deckId : deckId
                 })
-                let dealerPoints = 0;
-                let playerPoints = 0;
+                
                 //Calling 8 cards, 4 for Dealer and 4 for player 
                 axios.get(`/${deckId}/draw/?count=8`)
                 .then(card_response =>{
                     const cards = card_response.data.cards;
-                    let dealer = [];
-                    let player = [];
-                    for (var i = 0; i < cards.length; i++){
-                        let card = cards[i];
-                        let suit = 'suit' + card.suit; // For CSS of Card
-                        let value = card.value.charAt(0); // For Print value on Card
-                        let currentPoint = this.getPoints(value); // Extracting points from API
-                        if (i < 4){
-                            dealerPoints += currentPoint;
-                            dealer.push({
-                                suit: suit,
-                                value: value,
-                                code: card.code
-                            });
-                        }else{
-                            playerPoints += currentPoint;
-                            player.push({
-                                suit: suit,
-                                value: value,
-                                code: card.code
-                            });
-                        }
-                    }
-                    let winner = this.getWinner(dealerPoints,playerPoints);
-                    
-                    this.setState({
-                        dealerPoints: dealerPoints,
-                        playerPoints: playerPoints,
-                        player: player,
-                        dealer: dealer,
-                        isLoading: false,
-                        winner: winner
-                    })
+                    this.setCards(cards);
                 })
                 .catch();
 
             }).catch(error =>{});
     }
+
+    // Reshuffling new Game
+    reShuffle = ()=>{
+        let deckId = this.state.deckId;
+        axios.get(`/${deckId}/shuffle/?`)
+        .then(response => {
+            //Calling 8 cards, 4 for Dealer and 4 for player 
+            axios.get(`/${deckId}/draw/?count=8`)
+            .then(card_response =>{
+                const cards = card_response.data.cards;
+                this.setCards(cards);
+            })
+            .catch();
+        }).catch(error =>{});
+    };
+
     
     getWinner = (dealerPoints, playerPoints) =>{
         let winner;
@@ -89,6 +72,44 @@ class App extends Component {
         this.setState({isStart: !start})
     };
 
+    setCards = (cards) =>{
+        let dealerPoints = 0;
+        let playerPoints = 0;                    
+        let dealer = [];
+        let player = [];
+        for (var i = 0; i < cards.length; i++){
+            let card = cards[i];
+            let suit = 'suit' + card.suit; // For CSS of Card
+            let value = card.value.charAt(0); // For Print value on Card
+            let currentPoint = this.getPoints(value); // Extracting points from API
+            if (i < 4){
+                dealerPoints += currentPoint;
+                dealer.push({
+                    suit: suit,
+                    value: value,
+                    code: card.code
+                });
+            }else{
+                playerPoints += currentPoint;
+                player.push({
+                    suit: suit,
+                    value: value,
+                    code: card.code
+                });
+            }
+        }
+        let winner = this.getWinner(dealerPoints,playerPoints);
+        
+        this.setState({
+            dealerPoints: dealerPoints,
+            playerPoints: playerPoints,
+            player: player,
+            dealer: dealer,
+            isLoading: false,
+            winner: winner
+        });
+    };
+
     // Calling Deck API for drawing 1 card called from either of players
     drawCard = (e,player)=>{
         console.log(e);
@@ -102,8 +123,7 @@ class App extends Component {
                 let dealerPoints = this.state.dealerPoints;
                 let playerPoints = this.state.playerPoints;
                 if(player === 'Dealer'){
-                    let dealer = this.state.dealer;
-                    
+                    let dealer = this.state.dealer;                    
                     dealer.push(
                         {
                             suit: suit,
@@ -126,7 +146,6 @@ class App extends Component {
                             suit: suit,
                             value: value,
                             code: card.code
-
                         }
                     );
                     playerPoints += points;
@@ -136,58 +155,10 @@ class App extends Component {
                         playerPoints: playerPoints,
                         winner: winner
                     });
-                }
-                
+                }    
             }).catch()
     };
 
-    reShuffle = ()=>{
-        let deckId = this.state.deckId;
-        axios.get(`/${deckId}/shuffle/?`)
-        .then(response => {
-            let dealerPoints = 0;
-            let playerPoints = 0;
-            //Calling 8 cards, 4 for Dealer and 4 for player 
-            axios.get(`/${deckId}/draw/?count=8`)
-            .then(card_response =>{
-                const cards = card_response.data.cards;
-                let dealer = [];
-                let player = [];
-                for (var i = 0; i < cards.length; i++){
-                    let card = cards[i];
-                    let suit = 'suit' + card.suit; // For CSS of Card
-                    let value = card.value.charAt(0); // For Print value on Card
-                    let currentPoint = this.getPoints(value); // Extracting points from API
-                    if (i < 4){
-                        dealerPoints += currentPoint;
-                        dealer.push({
-                            suit: suit,
-                            value: value,
-                            code: card.code
-                        });
-                    }else{
-                        playerPoints += currentPoint;
-                        player.push({
-                            suit: suit,
-                            value: value,
-                            code: card.code
-                        });
-                    }
-                }
-                let winner = this.getWinner(dealerPoints,playerPoints);
-                this.setState({
-                    dealerPoints: dealerPoints,
-                    playerPoints: playerPoints,
-                    player: player,
-                    dealer: dealer,
-                    isLoading: false,
-                    winner: winner
-                })
-            })
-            .catch();
-
-        }).catch(error =>{});
-    };
 
     getPoints = (value)=>{
         let currentPoint = 0;
@@ -211,6 +182,7 @@ class App extends Component {
                     <span className="refresh" onClick={this.reShuffle}><img src="/images/refresh.svg" alt="Refresh"></img>
                     </span>
                     <Dealer hand = {this.state.dealer} winner={this.state.winner} totalPoints = {this.state.dealerPoints} draw = {(e) => this.drawCard(e,'Dealer')}/>
+                    <hr className="horizontal"/>
                     <Player hand = {this.state.player} winner={this.state.winner} totalPoints ={this.state.playerPoints} draw = {(e) => this.drawCard(e,'Player')}/>
                     
                 </div>        
