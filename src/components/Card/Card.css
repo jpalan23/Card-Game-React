@@ -10,7 +10,11 @@
     box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
 }
 
-.Card .top-left{
+.Card:hover{
+    cursor: pointer;
+}
+
+.faceUp .top-left{
     position: absolute;
     top: 40px;
 }
@@ -19,32 +23,36 @@
         font-size: 18px;
 }
 
-.Card:hover{
+/* .Card:hover{
     transform: scale(1.02,1.02);
-}
+} */
 
-.Card p{
+.faceUp p{
     text-align: center;
     font-size: 60px;
 }
 
 
-.front{
+.faceUp{
     background-color: #fff;
 }
 
-.Card .bottom-right{
+.faceUp .bottom-right{
     position: absolute;
     bottom: 40px;
     right: 10px;
 }
 
-.back{
-    background-image: url('../../../images/cardback.gif');
+.faceDown{
+    background-image: url('../../images/cardback.gif');
     border-color: #808080 #000000 #000000 #808080;
     background-color: white;
-    padding: 3px;
+ 
 }
+.faceDown div[class*='suit']:before, .faceDown div[class*='suit']:after, .faceDown p, .faceDown .bottom-right, .faceDown .top-left{
+    display: none;
+}
+
 
 div[class*='suit']:before {
     position: absolute;

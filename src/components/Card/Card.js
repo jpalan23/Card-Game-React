@@ -5,7 +5,7 @@ import './Card.css';
 const Card = (props) => {
     const cardValue = props.value;
     return (
-        <div className={`Card ${props.show}`}>
+        <div onClick={props.click} className={`Card eachCard ${props.show}`}>
             <div className = {` ${props.suit}`}>
                 <div className="top-left ">
                     <span>{cardValue}</span>
@@ -23,14 +23,15 @@ Card.propTypes = {
     value: PropTypes.string,
     suit: PropTypes.string,
     show: PropTypes.string,
-    code: PropTypes.string
+    code: PropTypes.string,
+    click: PropTypes.func
 }
 
 Card.defaultProps = {
     suit: '',
     code: '',
     value: '',
-    show: 'back'
+    show: 'faceDown',
 }
 
 

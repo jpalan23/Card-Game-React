@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './../Widgets/Card/Card';
+import Card from './../Card/Card';
 import './StartGame.css';
 import PropTypes from 'prop-types';
 

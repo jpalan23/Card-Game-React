@@ -13,8 +13,7 @@ class App extends Component {
         dealer:[],
         player:[],
         dealerPoints: 0,
-        playerPoints: 0,
-        winner: false
+        playerPoints: 0
     }
 
     // Calling Deck API for drawing initial Cards
@@ -53,26 +52,13 @@ class App extends Component {
         }).catch(error =>{});
     };
 
-    
-    getWinner = (dealerPoints, playerPoints) =>{
-        let winner;
-        if(dealerPoints > playerPoints){
-            winner = 'dealer';
-            
-        }else if(playerPoints > dealerPoints){
-            winner = 'player';
-        }else{
-            winner = 'draw';
-        }
-        return winner
-    };
-
     letsStartGame = (e) => {
         const start = this.state.isStart;
         this.setState({isStart: !start})
     };
 
     setCards = (cards) =>{
+
         let dealerPoints = 0;
         let playerPoints = 0;                    
         let dealer = [];
@@ -87,18 +73,22 @@ class App extends Component {
                 dealer.push({
                     suit: suit,
                     value: value,
-                    code: card.code
+                    code: card.code,
+                    show: 'faceUp',
+                    points: currentPoint
                 });
             }else{
                 playerPoints += currentPoint;
                 player.push({
                     suit: suit,
                     value: value,
-                    code: card.code
+                    code: card.code,
+                    show: 'faceUp',
+                    points: currentPoint
+                    
                 });
             }
         }
-        let winner = this.getWinner(dealerPoints,playerPoints);
         
         this.setState({
             dealerPoints: dealerPoints,
@@ -106,59 +96,53 @@ class App extends Component {
             player: player,
             dealer: dealer,
             isLoading: false,
-            winner: winner
         });
     };
 
     // Calling Deck API for drawing 1 card called from either of players
-    drawCard = (e,player)=>{
-        console.log(e);
+    drawCard = ()=>{
         let deckId = this.state.deckId;
-        axios.get(`/${deckId}/draw/?count=1`)
+        axios.get(`/${deckId}/draw/?count=2`)
             .then(response =>{
-                const card = response.data.cards[0];
-                let suit = 'suit' + card.suit;
-                let value = card.value.charAt(0);
-                let points = this.getPoints(value);
-                let dealerPoints = this.state.dealerPoints;
-                let playerPoints = this.state.playerPoints;
-                if(player === 'Dealer'){
-                    let dealer = this.state.dealer;                    
-                    dealer.push(
-                        {
-                            suit: suit,
-                            value: value,
-                            code: card.code
+                const dcard = response.data.cards[0]; // Dealers Card
+                let dsuit = 'suit' + dcard.suit;
+                let dvalue = dcard.value.charAt(0);
+                let dpoints = this.getPoints(dvalue);
+                let dshow = 'faceDown';
+                let dealer = this.state.dealer;                    
+                dealer.push(
+                    {
+                        suit: dsuit,
+                        value: dvalue,
+                        code: dcard.code,
+                        show: dshow,
+                        points: dpoints
 
-                        }
-                    );
-                    dealerPoints += points;
-                    let winner = this.getWinner(dealerPoints,playerPoints);
-                    this.setState({
-                        dealer: dealer,
-                        dealerPoints: dealerPoints,
-                        winner: winner
-                    });
-                }else{
-                    let player = this.state.player;
-                    player.push(
-                        {
-                            suit: suit,
-                            value: value,
-                            code: card.code
-                        }
-                    );
-                    playerPoints += points;
-                    let winner = this.getWinner(dealerPoints,playerPoints);
-                    this.setState({
-                        player: player,
-                        playerPoints: playerPoints,
-                        winner: winner
-                    });
+                    }
+                );
+                const pcard = response.data.cards[1]; // Players Card
+                let psuit = 'suit' + pcard.suit;
+                let pvalue = pcard.value.charAt(0);
+                let ppoints = this.getPoints(pvalue);
+                let pshow = 'faceDown';
+                let player = this.state.player;
+                
+                player.push(
+                    {
+                        suit: psuit,
+                        value: pvalue,
+                        code: pcard.code,
+                        show: pshow,
+                        points: ppoints
+                    }
+                );
+                this.setState({
+                    player: player,
+                    dealer: dealer
+                });
                 }    
-            }).catch()
+            ).catch()
     };
-
 
     getPoints = (value)=>{
         let currentPoint = 0;
@@ -173,17 +157,27 @@ class App extends Component {
     };
 
     render() {
-          
+        
+        let disableDraw = null;
+        if (this.state.dealer.length > 4){
+            disableDraw = 'Deal disableDraw'
+        }else{
+            disableDraw = 'Deal'
+        }
+
         let show = null;
+        
         if (this.state.isStart){
             show = (
             <div  className="App">
                 <div className="mainGame">
                     <span className="refresh" onClick={this.reShuffle}><img src="/images/refresh.svg" alt="Refresh"></img>
                     </span>
-                    <Dealer hand = {this.state.dealer} winner={this.state.winner} totalPoints = {this.state.dealerPoints} draw = {(e) => this.drawCard(e,'Dealer')}/>
-                    <hr className="horizontal"/>
-                    <Player hand = {this.state.player} winner={this.state.winner} totalPoints ={this.state.playerPoints} draw = {(e) => this.drawCard(e,'Player')}/>
+                    <Dealer hand = {this.state.dealer}  totalPoints = {this.state.dealerPoints} />
+                    <div className="dealing">
+                        <button className={disableDraw}  onClick= {this.drawCard}>Deal</button>
+                    </div>                    
+                    <Player hand = {this.state.player}  totalPoints ={this.state.playerPoints} />
                     
                 </div>        
             </div>
