@@ -81,3 +81,9 @@
     height: 50px;
     margin: 0 auto;
 }
+
+@media (max-width: 812px){
+    .App .refresh {
+        left: 25px;
+    }
+}
