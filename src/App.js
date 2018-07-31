@@ -13,7 +13,8 @@ class App extends Component {
         dealer:[],
         player:[],
         dealerPoints: 0,
-        playerPoints: 0
+        playerPoints: 0,
+        error:false
     }
 
     // Calling Deck API for drawing initial Cards
@@ -32,9 +33,16 @@ class App extends Component {
                     const cards = card_response.data.cards;
                     this.setCards(cards);
                 })
-                .catch();
+                .catch(error=>{
+                    console.log(error);
+                    this.setState({error: true});
+                    
+                });
 
-            }).catch(error =>{});
+            }).catch(error =>{
+                console.log(error);
+                this.setState({error: true});
+            });
     }
 
     // Reshuffling new Game
@@ -48,15 +56,24 @@ class App extends Component {
                 const cards = card_response.data.cards;
                 this.setCards(cards);
             })
-            .catch();
-        }).catch(error =>{});
+            .catch(error=>{
+                console.log(error);
+                this.setState({error: true});
+                
+            });
+        }).catch(error =>{
+            console.log(error);
+            this.setState({error: true});
+        });
     };
 
-    letsStartGame = (e) => {
+    // Checking for click event on Start Game Button
+    letsStartGame = () => {
         const start = this.state.isStart;
         this.setState({isStart: !start})
     };
 
+    // Common method called by Initiallizing the game and Reshulling the game
     setCards = (cards) =>{
 
         let dealerPoints = 0;
@@ -141,9 +158,13 @@ class App extends Component {
                     dealer: dealer
                 });
                 }    
-            ).catch()
+            ).catch(error =>{
+                console.log(error);
+                this.setState({error: true});
+            });
     };
 
+    // Commonn method called by drawCard() & setCard() to calculate the points
     getPoints = (value)=>{
         let currentPoint = 0;
         if(value === 'A'){
@@ -157,38 +178,45 @@ class App extends Component {
     };
 
     render() {
-        
-        let disableDraw = null;
-        if (this.state.dealer.length > 4){
-            disableDraw = 'Deal disableDraw'
-        }else{
-            disableDraw = 'Deal'
-        }
+        // For Error Handling, Error details are console logged.
+        let show = <p className="Error" style={{textAlign: 'center'}}>Something went wrong,<br/>
+                    Please check your Internet connection.
+                    </p>;
+        if(!this.state.error){
+            // Allowing drawing 1 time
+            let disableDraw = null;
+            if (this.state.dealer.length > 4){
+                disableDraw = 'Deal disableDraw';
+            }else{
+                disableDraw = 'Deal';
+            }
 
-        let show = null;
-        
-        if (this.state.isStart){
-            show = (
-            <div  className="App">
-                <div className="mainGame">
-                    <span className="refresh" onClick={this.reShuffle}><img src="/images/refresh.svg" alt="Refresh"></img>
-                    </span>
-                    <Dealer hand = {this.state.dealer}  totalPoints = {this.state.dealerPoints} />
-                    <div className="dealing">
-                        <button className={disableDraw}  onClick= {this.drawCard}>Deal</button>
-                    </div>                    
-                    <Player hand = {this.state.player}  totalPoints ={this.state.playerPoints} />
-                    
-                </div>        
-            </div>
-            );
-        }else{
-            show = (
-                <div className="App">
-                    <StartGame loading ={this.state.isLoading}  click = {(e) => this.letsStartGame (e)} />
+            // Showing content depending on State which is game is either started or yet to start 
+            
+            if (this.state.isStart){
+                show = (
+                <div  className="App">
+                    <div className="mainGame">
+                        <span className="refresh" onClick={this.reShuffle}><img src="/images/refresh.svg" alt="Refresh"></img>
+                        </span>
+                        <Dealer hand = {this.state.dealer}  totalPoints = {this.state.dealerPoints} />
+                        <div className="dealing">
+                            <button className={disableDraw}  onClick= {this.drawCard}>Deal</button>
+                        </div>                    
+                        <Player hand = {this.state.player}  totalPoints ={this.state.playerPoints} />
+                        
+                    </div>        
                 </div>
-            );
+                );
+            }else{
+                show = (
+                    <div className="App">
+                        <StartGame loading ={this.state.isLoading}  click = {() => this.letsStartGame ()} />
+                    </div>
+                );
+            }
         }
+        
         return (
             <div>
                 {show}

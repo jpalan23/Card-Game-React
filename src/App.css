@@ -82,6 +82,16 @@
     margin: 0 auto;
 }
 
+.Error{
+    top: 30%;
+    text-align: center;
+    display: block;
+    position: fixed;
+    color: gold;
+    width: 100%;
+
+}
+
 @media (max-width: 812px){
     .App .refresh {
         left: 25px;

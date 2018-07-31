@@ -19,7 +19,6 @@ const StartGame = (props) => {
 StartGame.propTypes = {
     click : PropTypes.func,
     loading: PropTypes.bool
-
 }
 
 export default StartGame;
