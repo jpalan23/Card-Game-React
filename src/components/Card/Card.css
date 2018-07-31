@@ -50,7 +50,7 @@
  
 }
 .faceDown div[class*='suit']:before, .faceDown div[class*='suit']:after, .faceDown p, .faceDown .bottom-right, .faceDown .top-left{
-    display: none;
+    display: none !important;
 }
 
 
